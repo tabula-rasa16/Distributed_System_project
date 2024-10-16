@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flightinfosys.mapper.FlightMapper">
+
+
+   <!-- 1 -->
+    <select id="selectFlightId" parameterType="com.flightinfosys.domain.Flight" resultType="integer">
+        select id from flight_info
+        where source = #{source} and destination = #{destination};
+    </select>
+
+    <!-- 2 -->
+    <!-- Result Map to map the result to Flight object -->
+    <resultMap id="flightResultMap" type="com.flightinfosys.domain.Flight">
+        <result property="departureTime" column="departure_time"/>
+        <result property="airfare" column="airfare"/>
+        <result property="availabeSeatNum" column="availabe_seat_num"/>
+    </resultMap>
+
+    <!-- SQL Query to select flight info by flight ID -->
+    <select id="selectFlightInfoById" parameterType="int" resultMap="flightResultMap">
+        select departure_time, airfare, availabe_seat_num
+        from flight_info
+        where id = #{id};
+    </select>
+
+    <!-- 3 -->
+    <select id="checkFlightAvailability" parameterType="int" resultType="int">
+    select availabe_seat_num
+    from flight_info
+    where id = #{flightId};   
+    </select>
+    <update id="updateSeatAvailability" parameterType="map">
+    update flight_info
+    set availabe_seat_num = availabe_seat_num - #{seatCount}
+    where id = #{flightId} and availabe_seat_num >= #{seatCount};
+    </update>
+
+
+    <!-- 5 -->
+    <select id="selectFlightsByMaxPrice" parameterType="long" resultType="com.flightinfosys.domain.Flight">
+    SELECT source, destination, airfare
+    FROM flight_info
+    WHERE airfare <= #{maxPrice};
+    </select>
+
+    <!-- 6 -->
+    <select id="selectCheapestFlightWithSeats" parameterType="map" resultType="com.flightinfosys.domain.Flight">
+    SELECT id, source, destination, airfare, availabe_seat_num
+    FROM flight_info
+    WHERE source = #{source}
+    AND destination = #{destination}
+    AND availabe_seat_num > 0
+    ORDER BY airfare ASC
+    LIMIT 1;
+    </select>
+
+
+
+
+
+</mapper>

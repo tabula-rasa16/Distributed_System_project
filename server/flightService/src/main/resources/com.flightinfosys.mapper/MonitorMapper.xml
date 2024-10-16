@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flightinfosys.mapper.MonitorMapper">
+
+    <!-- 1. 注册新的监控信息 -->
+    <insert id="registerMonitor" parameterType="map">
+        INSERT INTO flight_monitor (flight_id, client_ip, client_port, monitor_end_time)
+        VALUES (#{flightId}, #{clientIp}, #{clientPort}, #{monitorEndTime});
+    </insert>
+
+    <!-- 2. 查询当前监控中的客户端信息 -->
+    <select id="getMonitorsByFlightId" parameterType="int" resultType="com.flightinfosys.domain.Monitor">
+        SELECT client_ip, client_port
+        FROM flight_monitor
+        WHERE flight_id = #{flightId}
+        AND monitor_end_time > NOW();
+    </select>
+
+    <!-- 3. 删除已过期的监控信息 -->
+    <delete id="removeExpiredMonitors" parameterType="void">
+        DELETE FROM flight_monitor
+        WHERE monitor_end_time < NOW();
+    </delete>
+
+</mapper>

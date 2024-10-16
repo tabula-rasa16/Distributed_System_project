@@ -1,0 +1,8 @@
+com\flightinfosys\config\MyBatisConfig.class
+com\flightinfosys\domain\Flight.class
+com\flightinfosys\RPCMethod\RPCQueryFlightId.class
+com\flightinfosys\RPCMethod\PRCAdd.class
+com\flightinfosys\service\impl\FlightService.class
+com\flightinfosys\mapper\FlightMapper.class
+com\flightinfosys\service\IFlightService.class
+com\flightinfosys\RPCMethod\RPCMethodFactory.class

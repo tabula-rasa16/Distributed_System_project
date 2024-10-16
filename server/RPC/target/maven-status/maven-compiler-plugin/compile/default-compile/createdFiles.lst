@@ -1,0 +1,7 @@
+com\RPC\ParameterType.class
+com\RPC\Serializer.class
+com\RPC\IRPCMethod.class
+com\RPC\Serializer$1.class
+com\RPC\RPCResponse.class
+com\RPC\Parameter.class
+com\RPC\RPCRequest.class
