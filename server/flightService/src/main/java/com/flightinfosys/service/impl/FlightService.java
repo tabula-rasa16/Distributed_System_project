@@ -131,21 +131,15 @@ public class FlightService implements IFlightService {
     public String autoBookCheapestFlight(String source, String destination) {
         // 查询符合条件的最便宜航班
         Flight flight = flightMapper.selectCheapestFlightWithSeats(source, destination);
-
+    
         // 检查是否有符合条件的航班
         if (flight == null) {
             return "No available flights found for the given route.";
         }
-
-        // 预订座位
-        int result = flightMapper.updateSeatAvailability(flight.getId(), 1); // 预订一张票
-
-        if (result == 1) {
-            return "Successfully booked flight from " + flight.getSource() + " to " + flight.getDestination() + 
-                   " for $" + flight.getAirfare() + ".";
-        } else {
-            return "Failed to book the flight. Please try again.";
-        }
+    
+        // 调用 `reserveSeats` 方法预订座位
+        return reserveSeats(flight.getId(), 1);  // 预订一张票
     }
+    
         
 }
